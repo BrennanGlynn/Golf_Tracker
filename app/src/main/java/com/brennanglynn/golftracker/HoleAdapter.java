@@ -38,13 +38,23 @@ public class HoleAdapter extends RecyclerView.Adapter<HoleAdapter.HoleViewHolder
         viewHolder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int currentStroke = mCourse[viewHolder.getLayoutPosition()].getmHoleScore();
+                mCourse[viewHolder.getLayoutPosition()].setmHoleScore(currentStroke + 1);
+                viewHolder.holeScore.setText(String.format("%d", mCourse[viewHolder.getLayoutPosition()].getmHoleScore()));
                 Toast.makeText(mContext, String.format("Adding a stroke to hole number %d", viewHolder.getLayoutPosition() + 1), Toast.LENGTH_SHORT).show();
             }
         });
         viewHolder.subtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, String.format("Subtracting a stroke from hole number %d", viewHolder.getLayoutPosition() + 1), Toast.LENGTH_SHORT).show();
+                int currentStroke = mCourse[viewHolder.getLayoutPosition()].getmHoleScore();
+                if (currentStroke != 0) {
+                    Toast.makeText(mContext, String.format("Subtracting a stroke from hole number %d", viewHolder.getLayoutPosition() + 1), Toast.LENGTH_SHORT).show();
+                    mCourse[viewHolder.getLayoutPosition()].setmHoleScore(currentStroke - 1);
+                } else {
+                    Toast.makeText(mContext, "Cannot reduce stroke count lower than zero", Toast.LENGTH_SHORT).show();
+                }
+                viewHolder.holeScore.setText(String.format("%d", mCourse[viewHolder.getLayoutPosition()].getmHoleScore()));
             }
         });
         return viewHolder;
