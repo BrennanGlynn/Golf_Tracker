@@ -32,12 +32,26 @@ public class HoleAdapter extends RecyclerView.Adapter<HoleAdapter.HoleViewHolder
         View holeView = inflater.inflate(R.layout.hole_list_item, parent, false);
 
         // Return a new holder instance
-        HoleViewHolder viewHolder = new HoleViewHolder(holeView);
+        final HoleViewHolder viewHolder = new HoleViewHolder(holeView);
+
+        // Set onClickListeners for recyclerView
+        viewHolder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, String.format("Adding a stroke to hole number %d", viewHolder.getLayoutPosition() + 1), Toast.LENGTH_SHORT).show();
+            }
+        });
+        viewHolder.subtract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, String.format("Subtracting a stroke from hole number %d", viewHolder.getLayoutPosition() + 1), Toast.LENGTH_SHORT).show();
+            }
+        });
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(HoleAdapter.HoleViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(HoleAdapter.HoleViewHolder viewHolder, int position) {
         // Get the data model based on position
         Hole hole = mCourse[position];
 
@@ -46,22 +60,7 @@ public class HoleAdapter extends RecyclerView.Adapter<HoleAdapter.HoleViewHolder
         holeNumber.setText("Hole " + hole.getmHoleNumber() + ":");
         TextView holeScore = viewHolder.holeScore;
         holeScore.setText(hole.getmHoleScore() + "");
-        Button addButton = viewHolder.add;
-        addButton.setText("+");
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, String.format("Adding a stroke to hole %d", position + 1), Toast.LENGTH_SHORT).show();
-            }
-        });
-        Button subtractButton = viewHolder.subtract;
-        subtractButton.setText("-");
-        subtractButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, String.format("Subtracting a stroke from hole %d", position + 1), Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     @Override
